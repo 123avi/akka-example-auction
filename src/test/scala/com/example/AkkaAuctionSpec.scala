@@ -2,7 +2,8 @@
 package com.example
 
 import akka.actor.ActorSystem
-import akka.testkit.{ImplicitSender, TestActors, TestKit}
+import akka.testkit.{ImplicitSender, TestActors, TestKit, TestProbe}
+import com.example.AuctionAdmin.AuctionStarted
 import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
 
 //#definition
@@ -29,9 +30,10 @@ class AkkaAuctionSpec  extends TestKit(ActorSystem("MySpec"))
 
   "An Auction manager " must {
     "reply with AuctionStarted when getting startAuction command" in {
-      val auctionManagerActor = system.actorOf(AuctionManagerActor.props)
+      val probe = TestProbe()
+      val auctionManagerActor = system.actorOf(AuctionManagerActor.props(probe.ref))
       auctionManagerActor ! AuctionManagerActor.StartAuction
-      expectMsg(AuctionManagerActor.AuctionStarted)
+      probe.expectMsg(AuctionStarted)
 
     }
   }

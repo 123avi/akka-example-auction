@@ -15,11 +15,11 @@ object AkkaAuction extends App {
   implicit val ec: ExecutionContext = system.dispatcher
 
 
-  val auctionActor = system.actorOf(AuctionManagerActor.props, "AuctionManager")
+  val auctionAdmin = system.actorOf(AuctionAdmin.props, "auctionAdmin")
   //#actor-system
 
   //#main-send-messages
-  auctionActor ! AuctionManagerActor.StartAuction
+  auctionAdmin ! AuctionAdmin.RunAuction
   //#main-send-messages
 }
 //#main-class
